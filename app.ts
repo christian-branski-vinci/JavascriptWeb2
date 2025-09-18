@@ -1,4 +1,5 @@
 import express from "express";
+import { ErrorRequestHandler } from "express";
 
 import usersRouter from "./routes/users";
 import pizzaRouter from "./routes/pizzas";
@@ -12,3 +13,10 @@ app.use("/users", usersRouter);
 app.use("/pizzas", pizzaRouter);
 
 export default app;
+
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  console.error(err.stack);
+  return res.status(500).send("Something broke!");
+};
+
+app.use(errorHandler);
